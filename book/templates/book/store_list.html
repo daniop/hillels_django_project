@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stores</title>
+    <style>
+        table, th, td {border:1px solid black;}
+    </style>
+</head>
+<body>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+    <h1 align="center">Всего {{ stores.count }} магазинов</h1>
+        <table style="width:50%" align="center">
+            <tr>
+                <th>Имя</th>
+                <th>Самая маленькая цена</th>
+                <th>Самая большая цена</th>
+            </tr>
+            {% for store in stores %}
+            <tr>
+                <td><a href="{% url 'book:store_detail' store.id %}">{{ store.name }}</a></td>
+                <td>{{ store.min|floatformat }}</td>
+                <td>{{ store.max|floatformat }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>

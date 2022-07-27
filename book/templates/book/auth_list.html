@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <style>
+        table, th, td {border:1px solid black;}
+    </style>
+</head>
+<body>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+    <h1 align="center">Всего {{ authors.count }} Авторов</h1>
+        <table style="width:50%" align="center">
+            <tr>
+                <th>Имя</th>
+                <th>Средний рейтинг</th>
+                <th>Общее количество книг</th>
+                <th>Возраст</th>
+            </tr>
+            {% for auth in authors %}
+            <tr>
+                <td><a href="{% url 'book:auth_detail' auth.id %}">{{ auth.name }}</a></td>
+                <td>{{ auth.rating }}</td>
+                <td>{{ auth.total }}</td>
+                <td>{{ auth.age }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publishers list</title>
+    <style>
+        table, th, td {border:1px solid black;}
+    </style>
+</head>
+<body>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+    <h1 align="center">Всего {{ best_pub.count }} Издателя</h1>
+        <table style="width:50%" align="center">
+            <tr>
+                <th>Имя</th>
+                <th>Количество лучших книг</th>
+
+            </tr>
+            {% for pub in best_pub %}
+            <tr>
+                <td><a href="{% url 'book:pub_detail' pub.id %}">{{ pub.name }}</a></td>
+                <td>{{ pub.books.count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>
