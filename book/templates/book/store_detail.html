@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store: {{ store.name }}</title>
+</head>
+<body>
+    <p><a href="{% url 'book:store_list' %}">Назад к списку магазинов</a></p>
+    <h1>Название магазина: {{ store.name }}</h1>
+    <p>Самому молодому автору в этом магазине {{ youngest_auth.youngest }} лет</p>
+    <ul>
+        {% for book in store.books.all %}
+            <li>{{ book.name }} Цена: {{ book.price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

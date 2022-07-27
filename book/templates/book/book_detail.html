@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book_detail</title>
+</head>
+<body>
+    <p><a href="{% url 'book:publishers_book' %}">Назад к списку лучших книг</a></p>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+    <h1>Название книги: {{ book.name }}</h1>
+    <p>Авторы: </p>{% for author in book.authors.all %}{{ author }}; {% endfor %}
+    <p>Издатель: </p>{{ book.publisher }}
+    <p>Цена: {{ book.price }}</p>
+    <p>Страниц: {{ book.pages }}</p>
+    <p>Эта книга продаётся в {{ store_total }} магазине(ах)</p>
+
+</body>
+</html>

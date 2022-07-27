@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Author {{ author.name }}</title>
+</head>
+<body>
+    <p><a href="{% url 'book:auth_list' %}">Назад к списку Авторов</a></p>
+    <h1>Имя автора: {{ author.name }}</h1>
+    <p>Средняя цена книг: {{ average.average|floatformat }}</p>
+    <p>Написал {{ author.books.count }} книг. Общее количество страниц: {{ average.total_pages }}</p>
+    <ul>
+        {% for book in author.books.all %}
+            <li>{{ book.name }} Рейтинг: {{ book.rating }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

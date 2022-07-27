@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p><a href="{% url 'book:publishers_book' %}">Лучшие книги (вместе с издателями. select_related())</a></p>
+    <p><a href="{% url 'book:best_pub' %}">Список всех издателей с их количеством лучших книг (prefetch_related())</a></p>
+    <p><a href="{% url 'book:auth_list' %}">Список авторов + средний бал их книг (annotate и aggragate)</a></p>
+    <p><a href="{% url 'book:store_list' %}">Список магазинов и стоимость самой дешевой/дорогой книги.(annotate и aggragate)</a></p>
+</body>
+</html>

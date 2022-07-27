@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publisher {{ publisher.name }}</title>
+</head>
+<body>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+    <p><a href="{% url 'book:best_pub' %}">Назад к списку издателей</a></p>
+    <h1>Название издательства: {{ publisher.name }}</h1>
+    <p>Всего книг: {{ publisher.books.count }} <ol>{% for book in book_list %}<li>{{ book.name }} - рейтинг: {{ book.rating }}</li>{% endfor %}</ol>
+    <p><a href="{% url 'book:best_pub' %}">Назад к списку издателей</a></p>
+    <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
+</body>
+</html>
