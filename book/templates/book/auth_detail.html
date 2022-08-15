@@ -5,8 +5,13 @@
     <title>Author {{ author.name }}</title>
 </head>
 <body>
-    <p><a href="{% url 'book:auth_list' %}">Назад к списку Авторов</a></p>
-    <h1>Имя автора: {{ author.name }}</h1>
+    <p><a href="{% url 'book:auth_list' %}">Назад к списку Авторов (таблица)</a></p>
+    <p><a href="{% url 'book:all_authors' %}">Назад к списку Авторов (список с пагинацией)</a></p>
+    <p><a href="{% url 'book:author_update' author.id %}">Редактировать</a></p>
+    <p><a href="{% url 'book:author_delete' author.id %}">Удалить</a></p>
+
+
+    <h1>Имя автора: {{ author.name }}: {{ author.age }} лет</h1>
     <p>Средняя цена книг: {{ average.average|floatformat }}</p>
     <p>Написал {{ author.books.count }} книг. Общее количество страниц: {{ average.total_pages }}</p>
     <ul>

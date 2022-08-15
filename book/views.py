@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Avg, Count, Max, Min, Prefetch, Sum
 from django.db.models.functions import Round
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .models import Author, Book, Publisher, Store
 
@@ -15,7 +18,7 @@ class BooksView(generic.ListView):
     context_object_name = 'publishers_books'
 
     def get_queryset(self):
-        return Book.objects.filter(rating__gte=9).select_related('publisher').\
+        return Book.objects.filter(rating__gte=9).select_related('publisher'). \
             prefetch_related('authors').order_by('-rating')
 
 
@@ -54,7 +57,7 @@ class AuthView(generic.ListView):
 
     def get_queryset(self):
         return Author.objects.annotate(rating=Round(Avg('books__rating'), 2),
-                                       total=Count('books')).\
+                                       total=Count('books')). \
             order_by('-rating')
 
 
@@ -84,3 +87,27 @@ class StoreDetailView(generic.DetailView):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         context['youngest_auth'] = self.object.books.aggregate(youngest=Min('authors__age'))
         return context
+
+
+class AuthorListView(generic.ListView):
+    context_object_name = 'authors'
+    queryset = Author.objects.all()
+    template_name = 'book/just_auth_list.html'
+    paginate_by = 5
+
+
+class AuthorCreateView(LoginRequiredMixin, CreateView):
+    model = Author
+    fields = ['name', 'age']
+
+
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
+    model = Author
+    fields = ['name', 'age']
+    template_name_suffix = '_update_form'
+
+
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
+    model = Author
+    success_url = reverse_lazy('book:all_authors')
+# AuthDetailView starting at 64 str
