@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -12,6 +13,9 @@ class Author(models.Model):
     @admin.display(description='Total books')
     def total_books(self):
         return self.books.count()
+
+    def get_absolute_url(self):
+        return reverse('book:auth_detail', kwargs={'pk': self.pk})
 
 
 class Publisher(models.Model):
