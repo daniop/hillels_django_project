@@ -3,19 +3,24 @@ from django.db.models import Avg, Count, Max, Min, Prefetch, Sum
 from django.db.models.functions import Round
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .models import Author, Book, Publisher, Store
 
 
+@cache_page(60 * 5)
 def index(request):
     return render(request, 'book/index.html')
 
 
+@method_decorator(cache_page(60), name='dispatch')
 class BooksView(generic.ListView):
     template_name = 'book/publishers_books.html'
     context_object_name = 'publishers_books'
+    paginate_by = 100
 
     def get_queryset(self):
         return Book.objects.filter(rating__gte=9).select_related('publisher'). \
@@ -32,9 +37,11 @@ class BookDetailView(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(10), name='dispatch')
 class PublisherView(generic.ListView):
     template_name = 'book/best_pub.html'
     context_object_name = 'best_pub'
+    paginate_by = 1000
 
     def get_queryset(self):
         return Publisher.objects.prefetch_related(
@@ -51,14 +58,17 @@ class PubDetailView(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(10), name='dispatch')
 class AuthView(generic.ListView):
     template_name = 'book/auth_list.html'
     context_object_name = 'authors'
+    paginate_by = 1000
 
     def get_queryset(self):
-        return Author.objects.annotate(rating=Round(Avg('books__rating'), 2),
-                                       total=Count('books')). \
-            order_by('-rating')
+        return Author.objects.annotate(
+            rating=Round(Avg('books__rating'), 2),
+            total=Count('books')
+        ).order_by('-rating')
 
 
 class AuthDetailView(generic.DetailView):
@@ -89,11 +99,12 @@ class StoreDetailView(generic.DetailView):
         return context
 
 
+@method_decorator(cache_page(10), name='dispatch')
 class AuthorListView(generic.ListView):
     context_object_name = 'authors'
     queryset = Author.objects.all()
     template_name = 'book/just_auth_list.html'
-    paginate_by = 5
+    paginate_by = 1000
 
 
 class AuthorCreateView(LoginRequiredMixin, CreateView):

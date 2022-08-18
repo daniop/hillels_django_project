@@ -9,17 +9,7 @@
 </head>
 <body>
     <p><a href="{% url 'book:index' %}">Назад к списку всех ссылок</a></p>
-
-            <a href="{% url 'book:author_add' %}">Создать автора</a>
-
-            {% for auth in authors %}
-                <ul>
-                    <li>
-                        <a href="{% url 'book:auth_detail' auth.id %}">{{ auth.name }}: {{ auth.age }} лет</a>
-                    </li>
-                </ul>
-            {% endfor %}
-
+    <p><a href="{% url 'book:author_add' %}">Создать автора</a></p>
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
@@ -35,5 +25,12 @@
             {% endif %}
         </span>
     </div>
+            {% for auth in authors %}
+                <ul>
+                    <li>
+                        <a href="{% url 'book:auth_detail' auth.id %}">{{ auth.name }}: {{ auth.age }} лет</a>
+                    </li>
+                </ul>
+            {% endfor %}
 </body>
 </html>
